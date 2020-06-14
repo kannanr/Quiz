@@ -16,7 +16,7 @@ export default QuizDetail = forwardRef((props, ref) => {
         stickyHeaderIndices: [0],
       }}
     >
-      <View key={1} style={{flex: 1, flexDirection: 'column', alignItems: "center", justifyContent: "center", paddingTop: 20, height: 500}}>
+      <View key={props.category.id} style={{flex: 1, flexDirection: 'column', alignItems: "center", justifyContent: "center", paddingTop: 20, height: 500}}>
           <Image source={{ uri: props.category.image_url }} style={{ borderRadius: 10, backgroundColor: "white", width: 150, height: 150, resizeMode: "contain" }} />
           <Text h1>{props.category.name}</Text>
           <Text h4>Description: {props.category.description}</Text>

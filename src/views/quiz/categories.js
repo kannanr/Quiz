@@ -71,6 +71,7 @@ export default QuizCategories = ({ navigation }) => {
           {
             examCategories.map((examCategory, index) => {
               return <View style={{ margin: 7 }}
+                    key={examCategory.id}
                     onStartShouldSetResponder={() => {return true}}
                     onResponderRelease={() => examCategoriesDetail[index].open() }
               >
@@ -81,7 +82,7 @@ export default QuizCategories = ({ navigation }) => {
           <Portal>
             {
               examCategories.map((examCategory, index) => { 
-                return <QuizDetail ref={el => (examCategoriesDetail[index] = el)} category={examCategory}/>
+                return <QuizDetail key={index} ref={el => (examCategoriesDetail[index] = el)} category={examCategory}/>
               })
             }
           </Portal>
