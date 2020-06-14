@@ -23,7 +23,7 @@ import {
 import { AuthContext } from "./src/views/context";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootStackScreen } from './src/views/navigation/root_navigation'
-
+import { Host } from 'react-native-portalize'
 import SplashScreen from 'react-native-splash-screen'
 import Loading from './src/views/Loading'
 
@@ -53,7 +53,7 @@ const App: () => React$Node = () => {
     setTimeout(() => {
       SplashScreen.hide()
       setIsReady(true)
-    }, 3000)
+    }, 1000)
   })
   if (isReady == false) {
     return (
@@ -65,7 +65,9 @@ const App: () => React$Node = () => {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        <RootStackScreen userToken={userToken}/>
+        <Host>
+          <RootStackScreen userToken={userToken}/>
+        </Host>
       </NavigationContainer>
     </AuthContext.Provider>
   );

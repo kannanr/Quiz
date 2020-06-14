@@ -35,7 +35,6 @@ export const HomeStackScreen = () => (
         title: route.params.name
       })}
       headerMode="none"
-      
     />
   </HomeStack.Navigator>
 );

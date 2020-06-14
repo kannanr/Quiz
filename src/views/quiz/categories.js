@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,11 +19,16 @@ import {
 
 import { Colors, } from 'react-native/Libraries/NewAppScreen';
 const screenWidth = Dimensions.get("window").width
+import { Portal } from 'react-native-portalize';
 
 import { QUIZAPP_API_ENDPOINT } from 'react-native-dotenv'
+import QuizDetail from './details';
 
 export default QuizCategories = ({ navigation }) => {
+  const modalizeRef = React.createRef(null);
+  var examCategoriesDetail = []
   const [examCategories, setExamCategory] = useState([]);
+
   useEffect(() => {
     var body =
     {
@@ -44,7 +49,6 @@ export default QuizCategories = ({ navigation }) => {
       }
       `
     }
-
     fetch(QUIZAPP_API_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -53,82 +57,100 @@ export default QuizCategories = ({ navigation }) => {
       },
       body: JSON.stringify(body),
     }).then(response => response.json()).then(resultData => {
-      setTimeout(() => {
-        // SplashScreen.hide()
-        // setIsReady(true)
-      }, 1000)
-      // console.log(`result data: ${JSON.stringify(resultData.data.examCategory)}`)
       setExamCategory(resultData.data.examCategory)
-      // setPracticeData(resultData.data.publicPracticeInfo[0] || {})
+      resultData.data.examCategory.map((category, index) => {
+        examCategoriesDetail.push(React.createRef(null))
+      })
     }).catch(err => console.log(err));
   }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-      <View>
-        <FlatList
-          data={examCategories}
-          keyExtractor={a => a.id}
-          renderItem={({ item }) => (
-            // Single Comes here which will be repeatative for the FlatListItems
-            <View style={{ margin: 5, backgroundColor: "white", borderRadius: 10, padding: 10, flexDirection: 'row', justifyContent: "space-between" }}
-                  onStartShouldSetResponder={() => {return true}}
-                  onResponderRelease={() => navigation.push("Details", { name: item.name }) }
-            >
-              <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "center" }}>
-                <Image source={{ uri: item.image_url }} style={{ width: 50, height: 50, resizeMode: "contain", marginRight: 20 }} />
-                <View style={{ flexDirection: "column" }}>
-                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>{item.name}</Text>
-                  <Text style={styles.item}
-                  // onPress={this.GetItem.bind(this, 'Id : ' + item.id + ' Value : ' + item.value)}
-                  >
-                    {item.description}
-                  </Text>
-                </View>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap'}}>
+          {
+            examCategories.map((examCategory, index) => {
+              return <View style={{ margin: 7 }}
+                    onStartShouldSetResponder={() => {return true}}
+                    onResponderRelease={() => examCategoriesDetail[index].open() }
+              >
+                <Image source={{ uri: examCategory.image_url }} style={{ borderRadius: 10, backgroundColor: "white", width: ((screenWidth / 2) - 15), height: ((screenWidth / 2) - 15), resizeMode: "contain" }} />
               </View>
-              <View style={{ flexDirection: "column", alignItems: "flex-end", justifyContent: "center" }}>
-                <Button
-                  title="Practice"
-                  buttonStyle={{
-                    height: 33,
-                    // width: 120,
-                    // backgroundColor: 'rgba(113, 154, 112, 1)',
-                    borderRadius: 5,
-                  }}
-                  titleStyle={{
-                    // fontFamily: 'regular',
-                    fontSize: 13,
-                    color: 'white',
-                  }}
-                  onPress={() => console.log('aye')}
-                  underlayColor="transparent"
-                />
-
-              </View>
-            </View>
-          )}
-        />
-      </View>
-
-      <FlatList
-          style={{flex: 1, flexDirection: 'column'}}
-          data={examCategories}
-          horizontal={false}
-          numColumns={2}
-          keyExtractor={a => a.id}
-          renderItem={({ item }) => (
-            // Single Comes here which will be repeatative for the FlatListItems
-            <View style={{ margin: 5, backgroundColor: "white", borderRadius: 10, padding: 15, width: 150, height: 150 }}
-                  onStartShouldSetResponder={() => {return true}}
-                  onResponderRelease={() => navigation.push("Details", { name: item.name }) }
-            >
-              <Image source={{ uri: item.image_url }} style={{ width: 120, height: 120, resizeMode: "contain", marginRight: 20 }} />
-            </View>
-          )}
-        />
+            })
+          }
+          <Portal>
+            {
+              examCategories.map((examCategory, index) => { 
+                return <QuizDetail ref={el => (examCategoriesDetail[index] = el)} category={examCategory}/>
+              })
+            }
+          </Portal>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
+        // <View>
+        //   <FlatList
+        //     data={examCategories}
+        //     keyExtractor={a => a.id}
+        //     renderItem={({ item }) => (
+        //       // Single Comes here which will be repeatative for the FlatListItems
+        //       <View style={{ margin: 5, backgroundColor: "white", borderRadius: 10, padding: 10, flexDirection: 'row', justifyContent: "space-between" }}
+        //             onStartShouldSetResponder={() => {return true}}
+        //             onResponderRelease={() => navigation.push("Details", { name: item.name }) }
+        //       >
+        //         <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "center" }}>
+        //           <Image source={{ uri: item.image_url }} style={{ width: 50, height: 50, resizeMode: "contain", marginRight: 20 }} />
+        //           <View style={{ flexDirection: "column" }}>
+        //             <Text style={{ fontSize: 20, fontWeight: "bold" }}>{item.name}</Text>
+        //             <Text style={styles.item}
+        //             // onPress={this.GetItem.bind(this, 'Id : ' + item.id + ' Value : ' + item.value)}
+        //             >
+        //               {item.description}
+        //             </Text>
+        //           </View>
+        //         </View>
+        //         <View style={{ flexDirection: "column", alignItems: "flex-end", justifyContent: "center" }}>
+        //           <Button
+        //             title="Practice"
+        //             buttonStyle={{
+        //               height: 33,
+        //               // width: 120,
+        //               // backgroundColor: 'rgba(113, 154, 112, 1)',
+        //               borderRadius: 5,
+        //             }}
+        //             titleStyle={{
+        //               // fontFamily: 'regular',
+        //               fontSize: 13,
+        //               color: 'white',
+        //             }}
+        //             onPress={() => console.log('aye')}
+        //             underlayColor="transparent"
+        //           />
+  
+        //         </View>
+        //       </View>
+        //     )}
+        //   />
+        // </View>
+        
+        // {/* <FlatList
+        //     style={{flex: 1, flexDirection: 'column'}}
+        //     data={examCategories}
+        //     horizontal={false}
+        //     numColumns={4}
+            
+        //     keyExtractor={a => a.id}
+        //     renderItem={({ item }) => (
+        //       // Single Comes here which will be repeatative for the FlatListItems
+        //       <View style={{ margin: 5, backgroundColor: "white", borderRadius: 10, padding: 15, width: 150, height: 150 }}
+        //             onStartShouldSetResponder={() => {return true}}
+        //             onResponderRelease={() => navigation.push("Details", { name: item.name }) }
+        //       >
+        //         <Image source={{ uri: item.image_url }} style={{ width: 120, height: 120, resizeMode: "contain", marginRight: 20 }} />
+        //       </View>
+        //     )}
+        //   /> */}
 };
 
 const styles = StyleSheet.create({
