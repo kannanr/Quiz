@@ -4,18 +4,9 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  // Text,
-  StatusBar,
-  FlatList,
   Image,
   Dimensions
 } from 'react-native';
-
-import {
-  Button,
-  Text,
-} from 'react-native-elements'
-
 
 import { Colors, } from 'react-native/Libraries/NewAppScreen';
 const screenWidth = Dimensions.get("window").width
@@ -25,7 +16,6 @@ import { QUIZAPP_API_ENDPOINT } from 'react-native-dotenv'
 import QuizDetail from './details';
 
 export default QuizCategories = ({ navigation }) => {
-  const modalizeRef = React.createRef(null);
   var examCategoriesDetail = []
   const [examCategories, setExamCategory] = useState([]);
 
@@ -82,7 +72,7 @@ export default QuizCategories = ({ navigation }) => {
           <Portal>
             {
               examCategories.map((examCategory, index) => { 
-                return <QuizDetail key={index} ref={el => (examCategoriesDetail[index] = el)} category={examCategory}/>
+                return <QuizDetail key={index} ref={el => (examCategoriesDetail[index] = el)} category={examCategory} navigation={navigation}/>
               })
             }
           </Portal>
@@ -90,68 +80,6 @@ export default QuizCategories = ({ navigation }) => {
       </ScrollView>
     </SafeAreaView>
   );
-        // <View>
-        //   <FlatList
-        //     data={examCategories}
-        //     keyExtractor={a => a.id}
-        //     renderItem={({ item }) => (
-        //       // Single Comes here which will be repeatative for the FlatListItems
-        //       <View style={{ margin: 5, backgroundColor: "white", borderRadius: 10, padding: 10, flexDirection: 'row', justifyContent: "space-between" }}
-        //             onStartShouldSetResponder={() => {return true}}
-        //             onResponderRelease={() => navigation.push("Details", { name: item.name }) }
-        //       >
-        //         <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "center" }}>
-        //           <Image source={{ uri: item.image_url }} style={{ width: 50, height: 50, resizeMode: "contain", marginRight: 20 }} />
-        //           <View style={{ flexDirection: "column" }}>
-        //             <Text style={{ fontSize: 20, fontWeight: "bold" }}>{item.name}</Text>
-        //             <Text style={styles.item}
-        //             // onPress={this.GetItem.bind(this, 'Id : ' + item.id + ' Value : ' + item.value)}
-        //             >
-        //               {item.description}
-        //             </Text>
-        //           </View>
-        //         </View>
-        //         <View style={{ flexDirection: "column", alignItems: "flex-end", justifyContent: "center" }}>
-        //           <Button
-        //             title="Practice"
-        //             buttonStyle={{
-        //               height: 33,
-        //               // width: 120,
-        //               // backgroundColor: 'rgba(113, 154, 112, 1)',
-        //               borderRadius: 5,
-        //             }}
-        //             titleStyle={{
-        //               // fontFamily: 'regular',
-        //               fontSize: 13,
-        //               color: 'white',
-        //             }}
-        //             onPress={() => console.log('aye')}
-        //             underlayColor="transparent"
-        //           />
-  
-        //         </View>
-        //       </View>
-        //     )}
-        //   />
-        // </View>
-        
-        // {/* <FlatList
-        //     style={{flex: 1, flexDirection: 'column'}}
-        //     data={examCategories}
-        //     horizontal={false}
-        //     numColumns={4}
-            
-        //     keyExtractor={a => a.id}
-        //     renderItem={({ item }) => (
-        //       // Single Comes here which will be repeatative for the FlatListItems
-        //       <View style={{ margin: 5, backgroundColor: "white", borderRadius: 10, padding: 15, width: 150, height: 150 }}
-        //             onStartShouldSetResponder={() => {return true}}
-        //             onResponderRelease={() => navigation.push("Details", { name: item.name }) }
-        //       >
-        //         <Image source={{ uri: item.image_url }} style={{ width: 120, height: 120, resizeMode: "contain", marginRight: 20 }} />
-        //       </View>
-        //     )}
-        //   /> */}
 };
 
 const styles = StyleSheet.create({

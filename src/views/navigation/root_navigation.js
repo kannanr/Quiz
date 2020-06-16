@@ -7,9 +7,6 @@ import { createDrawerNavigator,
   DrawerItemList,
   DrawerItem, DrawerItems} from "@react-navigation/drawer";
 import { TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, Text } from 'react-native'
-// import { AuthContext } from "../context";
-
-// export const AuthContext = React.createContext();
 
 import Login from '../users/login'
 import Register from '../users/register'
@@ -18,9 +15,9 @@ import MyPractices from '../users/my_practices'
 import Home from '../users/home'
 
 import QuizCategories from '../quiz/categories'
-import QuizDetail from '../quiz/details'
+// import QuizDetail from '../quiz/details'
 import QuizPractice from '../quiz/practice'
-import QuizResult from '../quiz/result'
+// import QuizResult from '../quiz/result'
 
 import AuthStackScreen from './auth_navigation'
 import { View } from 'react-native'
@@ -29,7 +26,6 @@ import { AuthContext } from '../context'
 
 const Tabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
-// const SearchStack = createStackNavigator();
 
 const HeaderLeftIcon = ({ navigation }) => {
   return (<Icon
@@ -45,18 +41,47 @@ const headerLeft = navigation => (
   { headerLeft: () => <HeaderLeftIcon navigation={navigation} /> }
 )
 
+export const TabsScreen = () => (
+  <Tabs.Navigator name="HomeTab"
+    screenOptions={({ route }) => ({
+      // tabBarVisible: { route.name === 'QuizPractice' ? false : true },
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'All Exams') {
+          iconName = focused ? 'certificate' : 'certificate';
+        } else if (route.name === 'My Exams') {
+          iconName = focused ? 'account-clock' : 'account-clock-outline';
+        } else if (route.name === 'Results') {
+          iconName = 'bullseye-arrow'
+        }
+
+        // You can return any component that you like here!
+        // return <Ionicons name={iconName} size={size} color={color} />;
+        return <Icon name={iconName}
+          size={30}
+          type="material-community"
+          iconStyle={{ marginTop: 5, color: (focused ? 'tomato' : 'gray') }}
+          // onPress={() => { navigation.navigation.toggleDrawer() }}
+        />
+      },
+    })}
+    tabBarOptions={{
+      activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+    }}
+  >
+    <Tabs.Screen name="All Exams" component={QuizCategories} />
+    <Tabs.Screen name="My Exams" component={MyPractices} />
+    <Tabs.Screen name="Results" component={QuizCategories} />
+  </Tabs.Navigator>
+);
+
 export const HomeStackScreen = ({ navigation }) => {
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Exams" component={QuizCategories} options={headerLeft} />
-      <HomeStack.Screen
-        name="Details"
-        component={QuizCategories}
-        options={({ route }) => ({
-          title: route.params.name
-        })}
-        headerMode="none"
-      />
+    <HomeStack.Navigator >
+      <HomeStack.Screen name="Home" component={TabsScreen} headerMode="none" options={headerLeft}/>
+      <HomeStack.Screen name="Practice" component={QuizPractice} options={{headerShown: false, gestureEnabled: false}} />
     </HomeStack.Navigator>
   )
 };
@@ -66,14 +91,6 @@ export const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
     <ProfileStack.Screen name="Profile" component={Profile} options={{...headerLeft, headerShown: false}} headerMode="none" />
   </ProfileStack.Navigator>
-);
-
-export const TabsScreen = () => (
-  <Tabs.Navigator>
-    <Tabs.Screen name="All Exams" component={HomeStackScreen} />
-    <Tabs.Screen name="My Exams" component={HomeStackScreen} />
-    <Tabs.Screen name="Results" component={HomeStackScreen} />
-  </Tabs.Navigator>
 );
 
 function CustomDrawerContent(props) {
@@ -93,7 +110,7 @@ function CustomDrawerContent(props) {
 const Drawer = createDrawerNavigator();
 export const DrawerScreen = () => (
   <Drawer.Navigator initialRouteName="Home" headerMode="none" drawerContent={props => <CustomDrawerContent {...props} />}>
-    <Drawer.Screen name="Home" component={TabsScreen} />
+    <Drawer.Screen name="Exams" component={HomeStackScreen} options={{ title: 'Home' }}/>
     <Drawer.Screen name="Profile" component={ProfileStackScreen} headerMode="none" />
     <Drawer.Screen name="Settings" component={ProfileStackScreen} headerMode="none" />
     <Drawer.Screen name="Preferences" component={ProfileStackScreen} headerMode="none" />
