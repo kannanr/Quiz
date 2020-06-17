@@ -1,68 +1,255 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   SafeAreaView,
   ScrollView,
   View,
   Image,
-  Dimensions
+  StyleSheet,
+  Dimensions,
+  RefreshControl
 } from 'react-native';
+import { Avatar, Text, Icon } from 'react-native-elements'
 import { QUIZAPP_API_ENDPOINT } from 'react-native-dotenv'
-
-const screenWidth = Dimensions.get("window").width
+import { Modalize } from 'react-native-modalize';
+import Result from '../quiz/result'
+import { Portal } from 'react-native-portalize';
+import { LineChart} from "react-native-chart-kit";
 
 export default MyAttempts = ({ navigation }) => {
+  const [refreshing, setRefreshing] = React.useState(false);
   const [quizAttempts, setQuizAttempts] = useState([]);
+  var quizResults = []
+  const currentExamAttempt = useState(null);
+  const [score, setScore] = useState([0]);
 
-  useEffect(() => {
+  loadMyAttempts = () => {
     var body =
-    {
-      "query": `{
-        myExamAttempts(user_id:1, exam_category:"ACT"){
-          id
-          
-          quiz {
+      {
+        "query": `{
+          myExamAttempts(user_id:1){
             id
-            name
-            quiz_image
-            exam_category {
+            score
+            max_score
+            
+            user_answers {
+              id
+              answer_id
+              question_id
+              is_correct
+              
+              given_answer{
+                id
+                answer_string
+                correct
+              }
+            }
+            quiz {
               id
               name
+              quiz_image
+              questions {
+                id
+                question_string
+                answers {
+                  id
+                  answer_string
+                  correct
+                }
+              }
+              exam_category {
+                id
+                name
+              }
             }
           }
         }
+             
+        `
       }
-           
-      `
-    }
-    fetch(QUIZAPP_API_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        'Authorization': `Bearer abcd`,
-      },
-      body: JSON.stringify(body),
-    }).then(response => response.json()).then(resultData => {
-      setQuizAttempts(resultData.data.myExamAttempts)
-    }).catch(err => console.log(err));
+      fetch(QUIZAPP_API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': `Bearer abcd`,
+        },
+        body: JSON.stringify(body),
+      }).then(response => response.json()).then(resultData => {
+        setQuizAttempts(resultData.data.myExamAttempts);
+        resultData.data.myExamAttempts.map(() => {
+          quizResults.push(React.createRef(null))
+        })
+        setRefreshing(false);
+        setScore(resultData.data.myExamAttempts.map((attempt) => { return attempt.score}))
+      }).catch(err => console.log(err));
+  }
+
+  useEffect(() => {
+    loadMyAttempts();
   }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap'}}>
+      <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={loadMyAttempts} />
+        }>
+          <View style={styles.container}>
+            <LineChart
+              data={{
+                datasets: [
+                  {
+                    data: score
+                  }
+                ]
+              }}
+              width={Dimensions.get("window").width-20} // from react-native
+              height={220}
+              yAxisInterval={1} // optional, defaults to 1
+              chartConfig={{
+                backgroundColor: "#e26a00",
+                backgroundGradientFrom: "#fb8c00",
+                backgroundGradientTo: "#ffa726",
+                decimalPlaces: 0, // optional, defaults to 2dp
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                  borderRadius: 16
+                },
+                propsForDots: {
+                  r: "6",
+                  strokeWidth: "2",
+                  stroke: "#ffa726"
+                }
+              }}
+              bezier
+              style={{
+                marginVertical: 8,
+                borderRadius: 16
+              }}
+            />
+          </View>
+        <View style={{flex: 1}}>
           {
             quizAttempts.map((attempt, index) => {
-              return <View style={{ margin: 7 }}
-                    key={attempt.id}
-                    onStartShouldSetResponder={() => {return true}}
-                    // onResponderRelease={() => quizAttempts[index].open() }
+              const examAttempt = attempt;
+              const name = examAttempt.quiz.name;
+              const avatar = examAttempt.quiz.quiz_image;
+              return <View
+                key={index}
+                style={{
+                  height: 60,
+                  marginHorizontal: 10,
+                  marginTop: 10,
+                  backgroundColor: 'white',
+                  borderRadius: 5,
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}
               >
-                <Image source={{ uri: attempt.quiz.quiz_image }} style={{ borderRadius: 10, backgroundColor: "white", width: ((screenWidth / 2) - 15), height: ((screenWidth / 2) - 15), resizeMode: "contain" }} />
+                <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={{ marginLeft: 15 }}>
+                    <Avatar
+                      small
+                      rounded
+                      source={{ uri: avatar, }}
+                      imageProps={{resizeMode: "contain"}}
+                      activeOpacity={0.7}
+                    />
+                  </View>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      marginLeft: 10,
+                      color: 'gray',
+                    }}
+                  >
+                    {name}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    marginRight: 10,
+                  }}
+                >
+
+                  <View
+                    style={{
+                      
+                      ...(examAttempt.score > (examAttempt.max_score * 0.5) ? styles.positive : styles.negative),
+                      ...styles.result
+                    }}
+                  >
+                    <Icon name={examAttempt.score > (examAttempt.max_score * 0.5) ? "md-arrow-dropup" : "md-arrow-dropdown"} type="ionicon" color={examAttempt.score > (examAttempt.max_score * 0.5) ? "green" : "red"} size={25} />
+                    <Text
+                      style={{
+                        ...(examAttempt.score > (examAttempt.max_score * 0.5) ? styles.positive : styles.negative),
+                        fontSize: 13,
+                        marginLeft: 5,
+                      }}
+                    >
+                      {examAttempt.score} / {examAttempt.max_score}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      backgroundColor: 'rgba(222,222,222,1)',
+                      width: 35,
+                      height: 28,
+                      borderRadius: 5,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginHorizontal: 10,
+                    }}
+                  >
+                    <Icon name="play-circle" type="material-community" color="gray" size={20}
+                          onPress={() => quizResults[index].open() }
+                    />
+                    
+                  </View>
+                </View>
               </View>
             })
           }
+          <Portal>
+            {
+              quizAttempts.map((attempt, index) => { 
+                return <Result key={index} ref={el => (quizResults[index] = el)} examAttempt={attempt} navigation={navigation}/>
+              })
+            }
+          </Portal>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+    padding: 10
+
+  },
+  chart: {
+    flex: 1
+  },
+  result: {
+    width: 70,
+    height: 28,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginLeft: 10,
+  },
+  positive: {
+    backgroundColor: 'rgba(220,230,218,1)',
+    color: 'green',
+  },
+  negative: {
+    backgroundColor: 'rgba(244,230,224,1)',
+    color: 'red'
+  }
+})
