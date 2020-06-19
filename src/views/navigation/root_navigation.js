@@ -42,9 +42,8 @@ const headerLeft = navigation => (
 )
 
 export const TabsScreen = () => (
-  <Tabs.Navigator name="HomeTab"
+  <Tabs.Navigator name="HomeTab" initialRouteName="All Exams" 
     screenOptions={({ route }) => ({
-      // tabBarVisible: { route.name === 'QuizPractice' ? false : true },
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
 
@@ -89,7 +88,7 @@ export const HomeStackScreen = ({ navigation }) => {
 const ProfileStack = createStackNavigator();
 export const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={Profile} options={{...headerLeft, headerShown: false}} headerMode="none" />
+    <ProfileStack.Screen name="Profile" component={Profile} options={headerLeft} />
   </ProfileStack.Navigator>
 );
 
@@ -110,10 +109,10 @@ function CustomDrawerContent(props) {
 const Drawer = createDrawerNavigator();
 export const DrawerScreen = () => (
   <Drawer.Navigator initialRouteName="Home" headerMode="none" drawerContent={props => <CustomDrawerContent {...props} />}>
-    <Drawer.Screen name="Exams" component={HomeStackScreen} options={{ title: 'Home' }}/>
-    <Drawer.Screen name="Profile" component={ProfileStackScreen} headerMode="none" />
-    <Drawer.Screen name="Settings" component={ProfileStackScreen} headerMode="none" />
-    <Drawer.Screen name="Preferences" component={ProfileStackScreen} headerMode="none" />
+    <Drawer.Screen name="Exams" component={HomeStackScreen} />
+    <Drawer.Screen name="Profile" component={ProfileStackScreen} />
+    <Drawer.Screen name="Settings" component={ProfileStackScreen} />
+    <Drawer.Screen name="Preferences" component={ProfileStackScreen} />
   </Drawer.Navigator>
 );
 

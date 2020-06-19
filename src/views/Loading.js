@@ -1,13 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import { Text } from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
 import animatedReactNative from '../images/react-native-black500px.gif'
 const window = Dimensions.get('window');
-
-// export default Loading = props => {
-//   return (<View><Text>LOADING</Text></View>)
-// }
 
 export default Loading = (props) => { 
   return (
@@ -17,7 +12,7 @@ export default Loading = (props) => {
         style={{ width: window.width, height: window.height }}
         source={animatedReactNative}
         resizeMode={FastImage.resizeMode.contain}
-        />
+      />
     </View> : null
   )
 }
