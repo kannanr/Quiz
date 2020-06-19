@@ -10,6 +10,10 @@
 	<string>Only to take your profile picture!</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Only to take your profile picture!</string>
+  <key>NSFaceIDUsageDescription</key>
+  <string>Enabling Face ID allows you quick and secure access to your account.</string>
+  <key>UIUserInterfaceStyle</key>
+  <string>Light</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fontisto.ttf</string>

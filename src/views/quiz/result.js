@@ -1,6 +1,6 @@
-import React, { useRef, forwardRef, useEffect, useState } from 'react';
-import { View, ScrollView, Dimensions } from 'react-native';
-import { Avatar, Text, Image, Icon, Card } from 'react-native-elements'
+import React, { useRef, forwardRef } from 'react';
+import { View, ScrollView, Dimensions, Share } from 'react-native';
+import { Text, Card, Icon } from 'react-native-elements'
 import { Modalize } from 'react-native-modalize';
 
 import { useCombinedRefs } from '../../helpers/use-combined-refs';
@@ -8,6 +8,27 @@ import { useCombinedRefs } from '../../helpers/use-combined-refs';
 export default Result = forwardRef((props, ref) => {
   const modalizeRef = useRef(null);
   const combinedRef = useCombinedRefs(ref, modalizeRef);
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          `Heya, bragging here - see i've scored ${props.examAttempt.score} out of ${props.examAttempt.max_score} in ${props.examAttempt.quiz.exam_category.name} Practice test.`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+ 
 
   return (
     <Modalize
@@ -20,7 +41,19 @@ export default Result = forwardRef((props, ref) => {
     >
       <View key={-1} style={{}}></View>
       <View key={props.examAttempt.id} style={{ flex: 1 }}>
-        <Text h3 style={{ padding: 20, color: 'white'}}>{props.examAttempt.quiz.exam_category.name} - {props.examAttempt?.quiz.name}</Text>
+        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 100}}>
+          <Text h3 style={{ padding: 20, color: 'white' }}>{props.examAttempt.quiz.exam_category.name} - {props.examAttempt?.quiz.name}</Text>
+          <Icon name="share-alt-square" type="font-awesome" color="tomato" size={30} onPress={() => onShare() } 
+                style={{
+                  width: 35,
+                  height: 28,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginHorizontal: 10,
+                }}
+          />
+        </View>
         <ScrollView style={{height: Dimensions.get('window').height, flex: 1}}>
           <View style={{marginBottom: 200}}>
           {
@@ -33,8 +66,8 @@ export default Result = forwardRef((props, ref) => {
                   <Card
                     containerStyle={{
                       marginTop: 15,
-                      backgroundColor: isCorrectAnswer ? 'rgba(220,230,218,1)' : 'rgba(244,230,224,1)',//</View>'#d1d2d2',
-                      borderColor: isCorrectAnswer ? 'rgba(220,230,218,1)' : 'rgba(244,230,224,1)',//</View>'#d1d2d2',
+                      backgroundColor: isCorrectAnswer ? 'rgba(220,230,218,1)' : 'rgba(244,230,224,1)',
+                      borderColor: isCorrectAnswer ? 'rgba(220,230,218,1)' : 'rgba(244,230,224,1)',
                       borderRadius: 15,
                       color: isCorrectAnswer ? 'green' : 'red',
                     }}
@@ -42,9 +75,7 @@ export default Result = forwardRef((props, ref) => {
                   >
                     <View style={{color: isCorrectAnswer ? 'green' : 'red',}}>
                       {question.answers.map((answer, index) => {
-                        // const isThisTheCorrectAnswer = answer.id == props.examAttempt.user_answers.find(x => x.question_id === question.id)?.answer_id
                         return <RadioButton key={index} selected={answer.id == userAnswer} value={answer.answer_string} isCorrectAnswer={answer.id === correctAnswer}/>
-                        // <Text key={index} style={{ color: 'black' }}>{answer.answer_string}</Text>
                       })}
                       <Text style={{color: isCorrectAnswer ? 'green' : 'red',}}>Correct Answer: {question.answers.find(x => x.correct === true)?.answer_string} </Text>
                     </View>

@@ -1,15 +1,16 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import Picker from 'react-native-picker-select';
+const screenWidth = Dimensions.get('window').width;
 
 export default PickerComponent = (props) => {
   return (
     <View style={styles.container}>
       <Text style={ styles.label }>{props.label}</Text>
-      <RNPickerSelect
+      <Picker
         value={props.selectedValue}
         placeholder={{
-          label: 'Your education...',
+          label: props.placeholder,
           value: null,
           color: '#9EA0A4',
         }}
@@ -40,14 +41,10 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     height: 60,
   },
-  textInput: {
-    paddingLeft: 20,
-    marginRight: 45,
-    fontSize: 14
-  },
   label: {
     fontWeight: "700",
     fontSize: 16,
+    width: screenWidth*0.2
   },
 });
 

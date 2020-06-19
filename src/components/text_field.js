@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
+const screenWidth = Dimensions.get('window').width;
 
 export default TextField = (props) => {
   var textValue = props.value;
@@ -7,6 +8,7 @@ export default TextField = (props) => {
     <View style={styles.container}>
       <Text style={ styles.label }>{props.label}</Text>
       <TextInput
+        ref={props.reference}
         autoCorrect={false}
         placeholder={props.placeholder}
         blurOnSubmit={false}
@@ -15,9 +17,10 @@ export default TextField = (props) => {
         onBlur={(e) => {
           props.value = e.nativeEvent.text;
           props.onChange(e);
-        }} 
+        }}
         defaultValue={textValue}
-        ref={props.reference}
+        ref={props.curRef}
+        onSubmitEditing={props.onSubmitEditing}
       />
     </View>
   );
@@ -48,5 +51,6 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: "700",
     fontSize: 16,
+    width: screenWidth*0.2
   },
 });
