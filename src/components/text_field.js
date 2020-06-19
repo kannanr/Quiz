@@ -17,7 +17,6 @@ export default TextField = (props) => {
           props.onChange(e);
         }} 
         defaultValue={textValue}
-        onSubmitEditing={() => { props.nextFocus.focus() }}
         ref={props.reference}
       />
     </View>
