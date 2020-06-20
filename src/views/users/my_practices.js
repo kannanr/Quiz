@@ -71,6 +71,7 @@ export default MyAttempts = ({ navigation }) => {
         headers: {
           'Content-type': 'application/json',
           'Authorization': `Bearer abcd`,
+          'Accept': 'application/json',
         },
         body: JSON.stringify(body),
       }).then(response => response.json()).then(resultData => {

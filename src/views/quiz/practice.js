@@ -31,6 +31,7 @@ export default QuizPractice = (props) => {
       headers: {
         'Content-type': 'application/json',
         'Authorization': `Bearer abcd`,
+        'Accept': 'application/json',
       },
       body: JSON.stringify(createExamBody),
     }).then(response => response.json()).then(resultData => {
@@ -60,6 +61,7 @@ export default QuizPractice = (props) => {
       headers: {
         'Content-type': 'application/json',
         'Authorization': `Bearer abcd`,
+        'Accept': 'application/json',
       },
       body: JSON.stringify(body),
     }).then(response => response.json()).then(resultData => {
@@ -90,6 +92,7 @@ export default QuizPractice = (props) => {
       headers: {
         'Content-type': 'application/json',
         'Authorization': `Bearer abcd`,
+        'Accept': 'application/json',
       },
       body: JSON.stringify(body),
     }).then(response => response.json())
@@ -111,6 +114,7 @@ export default QuizPractice = (props) => {
       headers: {
         'Content-type': 'application/json',
         'Authorization': `Bearer abcd`,
+        'Accept': 'application/json',
       },
       body: JSON.stringify(body),
     }).then(response => response.json()).then(resultData => {
