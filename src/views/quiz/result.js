@@ -73,7 +73,7 @@ export default Result = forwardRef((props, ref) => {
                     }}
                     title={question.question_string}
                   >
-                    <View style={{color: isCorrectAnswer ? 'green' : 'red',}}>
+                    <View style={{color: isCorrectAnswer ? 'green' : 'red', marginRight: 30}}>
                       {question.answers.map((answer, index) => {
                         return <RadioButton key={index} selected={answer.id == userAnswer} value={answer.answer_string} isCorrectAnswer={answer.id === correctAnswer}/>
                       })}

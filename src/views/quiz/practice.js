@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, SafeAreaView, StyleSheet } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Alert } from 'react-native';
 import { Button } from 'react-native-elements'
 import { QUIZAPP_API_ENDPOINT } from 'react-native-dotenv'
+import CountDown from 'react-native-countdown-component';
+
 import QuestionView from './question_view';
 import Pagination from '../../components/pagination'
+import result from './result';
 
 
 export default QuizPractice = (props) => {
@@ -15,6 +18,20 @@ export default QuizPractice = (props) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [currentQuestionAnswer, setCurrentQuestionAnswer] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [allottedTime, setAllottedTime] = useState(null);
+
+  const onDoneCountdown = () => {
+    Alert.alert(
+      "Time Up",
+      "Your exam will be submitted now.",
+      [{ text: "OK", onPress: () => { console.log("OK Pressed"); submitExam(currentUserID, currentExamAttemptID);} } ],
+      { cancelable: false }
+    );
+  }
+ 
+  const onPressCountdown = () => {
+    Alert.alert("Countdown Component Press."); 
+  }
 
   useEffect(() => {
     var createExamBody = {
@@ -44,6 +61,7 @@ export default QuizPractice = (props) => {
         quiz(id: ${props.route.params.quiz_id}) {
           id
           name
+          allotted_time
           questions {
             id
             question_string
@@ -67,6 +85,7 @@ export default QuizPractice = (props) => {
     }).then(response => response.json()).then(resultData => {
       setQuestions(resultData.data.quiz[0].questions);
       setCurrentQuestion(resultData.data.quiz[0].questions[currentQuestionIndex]);
+      setAllottedTime(resultData.data.quiz[0].allotted_time);
     }).catch(err => console.log(err));
   }, []);
   
@@ -126,7 +145,19 @@ export default QuizPractice = (props) => {
   const paginate = currentItem => { setCurrentQuestionIndex(currentItem); setCurrentQuestion(questions[currentItem]); setCurrentQuestionAnswer(userAnswers[questions[currentItem].id]) };
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View key={1} style={{flex: 1, flexDirection: 'column', padding: 10, justifyContent: 'space-between'}}>
+      <View key={1} style={{ flex: 1, flexDirection: 'column', padding: 10, justifyContent: 'space-between' }}>
+        {
+          allottedTime ? 
+            <CountDown
+              until={allottedTime}
+              onFinish={onDoneCountdown}
+              onPress={onPressCountdown}
+              size={10}
+              timeToShow={['M', 'S']}
+            />
+          : <></>
+        }
+      
         <QuestionView question={currentQuestion} setUserAnswer={setUserAnswer} userAnswer={currentQuestionAnswer}/>
       
         <Pagination

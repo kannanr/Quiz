@@ -10,7 +10,7 @@ export default QuestionView = (props) => {
   if (question != undefined) {
     return (
       <ScrollView style={{flex: 1, backgroundColor: "white", margin: 10, borderRadius: 10, padding: 10}}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, marginRight: 30 }}>
           <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 20 }}>{question.question_string}</Text>
           {question.answers.map((answer, index) => {
             return (
