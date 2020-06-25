@@ -1,79 +1,133 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-    <link rel="stylesheet" href="dist/theme/league.css" id="theme">
-    <!-- <link rel="stylesheet" href="dist/theme/black.css" id="theme"> -->
-    
+  <title>reveal.js</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Course Intro</section>
-				<section>Basics - ReactJS </section>
-				<section>Basics - React Native</section>
-        <section>Components</section>
-        <section>
-          <section>Introduction to React Native</section>
-          <section>Layous</section>
-          <section>Views</section>
-          <section>Text</section>
-          <section>Image</section>
-          <section>TextInput</section>
-          <section>ScrollView</section>
-          <section>Stylesheet</section>
-          <section>Button</section>
-          <section>Picker</section>
-          <section>Switch</section>
-          <section>Checkbox - Radio Button</section>
-          <section>FlatList</section>
-          <section>SectionList</section>
-          <section>ActivityIndicator</section>
-          <section>Alert</section>
-          <section>KeyboardAvoidingView</section>
-          <section>Modal</section>
-          <section>StatusBar</section>
-          <section>PixelRatio</section>
-          <section>Dimensions</section>
-          <section>RefreshControl</section>
-          <section>Permissions</section>
-          <section>Navigation</section>
-          <section>Navigation Continued</section>
-        </section>
-				<section>Recap</section>
-				<section>QuizApp</section>
-				<section>Redux</section>
-				<section>GraphQL</section>
-				<section>QuizApp - Backend Integration</section>
-				<section>Other React Native Componets and API</section>
-				<section>App Publishing</section>
-				<section>Others</section>
-			</div>
-		</div>
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/league.css" id="theme">
+  <!-- <link rel="stylesheet" href="dist/theme/black.css" id="theme"> -->
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>Course Intro</section>
+      <section>Basics - ReactJS </section>
+      <section>Basics - React Native</section>
+      <section data-auto-animate>
+        <h2 data-id="code-title">Pretty Code</h2>
+        <pre data-id="code-animation">
+            <code class="hljs" data-trim data-line-numbers>
+              import React, { useState } from 'react';
+
+              function Example() {
+                const [count, setCount] = useState(0);
+
+                return (
+                  ...
+                );
+              }
+            </code>
+          </pre>
+        <p>Code syntax highlighting courtesy of <a href="https://highlightjs.org/usage/">highlight.js</a>.</p>
+      </section>
+      <section data-auto-animate>
+        <h2 data-id="code-title">Even Prettier Animations</h2>
+        <pre data-id="code-animation">
+          <code class="hljs" data-trim data-line-numbers="|4,8-11|17|22-24">
+            import React, { useState } from 'react';
+
+            function Example() {
+              const [count, setCount] = useState(0);
+
+              return (
+                &lt;div&gt;
+                  &lt;p&gt;You clicked {count} times&lt;/p&gt;
+                  &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+                    Click me
+                  &lt;/button&gt;
+                &lt;/div&gt;
+              );
+            }
+
+            function SecondExample() {
+              const [count, setCount] = useState(0);
+
+              return (
+                &lt;div&gt;
+                  &lt;p&gt;You clicked {count} times&lt;/p&gt;
+                  &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+                    Click me
+                  &lt;/button&gt;
+                &lt;/div&gt;
+              );
+            }
+          </code>
+        </pre>
+      </section>
+      <section>Components</section>
+      <section>
+        <section>Introduction to React Native</section>
+        <section>Layous</section>
+        <section>Views</section>
+        <section>Text</section>
+        <section>Image</section>
+        <section>TextInput</section>
+        <section>ScrollView</section>
+        <section>Stylesheet</section>
+        <section>Button</section>
+        <section>Picker</section>
+        <section>Switch</section>
+        <section>Checkbox - Radio Button</section>
+        <section>FlatList</section>
+        <section>SectionList</section>
+        <section>ActivityIndicator</section>
+        <section>Alert</section>
+        <section>KeyboardAvoidingView</section>
+        <section>Modal</section>
+        <section>StatusBar</section>
+        <section>PixelRatio</section>
+        <section>Dimensions</section>
+        <section>RefreshControl</section>
+        <section>Permissions</section>
+        <section>Navigation</section>
+        <section>Navigation Continued</section>
+      </section>
+      <section>Recap</section>
+      <section>QuizApp</section>
+      <section>Redux</section>
+      <section>GraphQL</section>
+      <section>QuizApp - Backend Integration</section>
+      <section>Other React Native Componets and API</section>
+      <section>App Publishing</section>
+      <section>Others</section>
+    </div>
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+      hash: true,
+
+      // Learn about plugins: https://revealjs.com/plugins/
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+    });
+  </script>
+</body>
+
 </html>
