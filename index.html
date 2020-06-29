@@ -9,10 +9,8 @@
 
   <link rel="stylesheet" href="dist/reset.css">
   <link rel="stylesheet" href="dist/reveal.css">
-  <link rel="stylesheet" href="dist/theme/league.css" id="theme">
-  <!-- <link rel="stylesheet" href="dist/theme/black.css" id="theme"> -->
-
-
+  <!-- <link rel="stylesheet" href="dist/theme/league.css" id="theme"> -->
+  <link rel="stylesheet" href="dist/theme/black-yellow-font.css" id="theme">
   <!-- Theme used for syntax highlighted code -->
   <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
 </head>
@@ -20,8 +18,136 @@
 <body>
   <div class="reveal">
     <div class="slides">
-      <section>Course Intro</section>
-      <section>Basics - ReactJS </section>
+      <section style="top: 157px; display: block;" class="present">
+        <img
+          src="./react-native-black500px.gif" 
+          alt="reveal.js"
+          style="height: 60vh; margin: 0 auto 4rem auto; background: transparent;" 
+          class="demo-logo">
+      </section>
+      <section>
+        Course Intro
+      </section>
+      <section>
+        <section>
+          <h2>React(.)JS</h2>
+        </section>
+        <section>
+          <h4>Basics - React(.)JS</h4>
+          <ul>
+            <li>A JavaScript library for building user interfaces</li>
+            <li>Created and backed by Facebook and online community</li>
+            <li>ReactJS is used to build interactive elements / components in a web site</li>
+          </ul>
+        </section>
+        <section>
+          <div>
+            <h4>Components</h4>
+            <p style="font-size: 32px">A component is simply a re-usable piece of code. </p>
+            <p style="font-size: 32px">Think of it as a function / class / object</p>
+            <ul>
+              <li>Menu Bar</li>
+              <li>Input Elements</li>
+              <li>SearchBar</li>
+              <li>Whole Listing Area or parts of it</li>
+              <li>Select Box</li>
+            </ul>
+          </div>
+        </section>
+        <section>
+          <h4>Components</h4>
+          <ul>
+            <li>Entire Footer or parts of it</li>
+            <li>Left Navigation</li>
+            <li>Pagination Controls</li>
+          </ul>
+          <p style="font-size: 32px">Basically everything in a webpage can be a component</p>
+        </section>
+        <section>
+          <h4>ES6 / ECMAScript 6</h4>
+          <ul>
+            <li>Classes</li>
+            <li>Arrow Functions</li>
+            <li>Let vs const vs var</li>
+          </ul>
+        </section>
+        <section>
+          <h4>{ ES6 } - Classes</h4>
+          <ul>
+            <li>ES6 introduced classes.</li>
+            <li>A class is a type of function, but instead of using the keyword function to initiate it, we use the keyword class</li>
+            <li>Use the keyword class to create a class</li>
+            <li>The constructor method is called each time the class object is initialized</li>
+          </ul>
+        </section>
+        <section>
+          <h4>{ ES6 } - Classes</h4>
+          <pre data-id="code-animation">
+            <code class="hljs" data-trim data-line-numbers="|1|2-4|11|21|">
+              class Car {
+                constructor(name) {
+                  this.brand = name;
+                }
+              
+                present() {
+                  return 'I have a ' + this.brand;
+                }
+              }
+              
+              class Model extends Car {
+                constructor(name, mod) {
+                  super(name);
+                  this.model = mod;
+                }  
+                show() {
+                    return this.present() + ', it is a ' + this.model
+                }
+              }
+              mycar = new Model("Ford", "Mustang");
+              mycar.show();
+            </code>
+          </pre>
+        </section>
+        <section>
+          <h4>{ ES6 } Arrow Functions</h4>
+          <pre data-id="code-animation">
+            <code class="hljs" data-trim data-line-numbers="|1|5|8|9|11-19|">
+              hello = () => {
+                return "Hello World!";
+              }
+
+              hello = (val) => "Hello " + val;
+              hello = val => "Hello " + val;
+
+              # There is no `this` binding in arrow functions.
+              # in Arrow fn `this` represents the object that defined the arrow function
+
+              class Car {
+                constructor(name) {
+                  this.brand = name;
+                }
+              
+                present = () => {
+                  return 'I have a ' + this.brand;
+                }
+              }
+
+              # you can try this out as a normal function and see if that returns the brand name.
+            </code>
+          </pre>
+        </section>
+        <section>
+          <h4>{ ES6 } Variables</h4>
+        </section>
+        <section>
+          <h4>Hello React!</h4>
+          <pre data-id="code-animation">
+            <code class="hljs" data-trim">
+              Lets code it out
+            </code>
+          </pre>
+        </section>
+      </section>
       <section>Basics - React Native</section>
       <section data-auto-animate>
         <h2 data-id="code-title">Pretty Code</h2>
@@ -76,6 +202,7 @@
       </section>
       <section>Components</section>
       <section>
+        <h4>RN - Building Blocks</h4>
         <section>Introduction to React Native</section>
         <section>Layous</section>
         <section>Views</section>

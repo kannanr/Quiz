@@ -94,5 +94,8 @@
       "no-eq-null": 2,
       "no-unused-expressions": 0
     }
+  },
+  "dependencies": {
+    "gulp-cli": "^2.3.0"
   }
 }
