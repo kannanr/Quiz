@@ -138,10 +138,36 @@
         </section>
         <section>
           <h4>{ ES6 } Variables</h4>
+          <pre data-id="code-animation">
+            <code class="hljs" data-trim data-line-numbers="|4|6|12|14|19-20|">
+              <!-- var  -->
+              hello = () => {
+                if(1===1) {
+                  var a = 10;
+                }
+                console.log(a); // Would print the value 10
+              }
+
+              <!-- let -->
+              hello = () => {
+                if(1===1) {
+                  let a = 10;
+                }
+                console.log(a);  // ReferenceError - Can't find variable 'a'
+              }
+
+              <!-- const -->
+              hello = () => {
+                const a = 10;
+                a = 20; // TypeError: Attempted to assign to readonly property.
+              }
+            </code>
+          </pre>
         </section>
         <section>
           <h4>Hello React!</h4>
           <pre data-id="code-animation">
+            <h4 style="text-align: center;">Our first Hello React application</h4>
             <code class="hljs" data-trim">
               Lets code it out
             </code>
@@ -149,57 +175,7 @@
         </section>
       </section>
       <section>Basics - React Native</section>
-      <section data-auto-animate>
-        <h2 data-id="code-title">Pretty Code</h2>
-        <pre data-id="code-animation">
-            <code class="hljs" data-trim data-line-numbers>
-              import React, { useState } from 'react';
-
-              function Example() {
-                const [count, setCount] = useState(0);
-
-                return (
-                  ...
-                );
-              }
-            </code>
-          </pre>
-        <p>Code syntax highlighting courtesy of <a href="https://highlightjs.org/usage/">highlight.js</a>.</p>
-      </section>
-      <section data-auto-animate>
-        <h2 data-id="code-title">Even Prettier Animations</h2>
-        <pre data-id="code-animation">
-          <code class="hljs" data-trim data-line-numbers="|4,8-11|17|22-24">
-            import React, { useState } from 'react';
-
-            function Example() {
-              const [count, setCount] = useState(0);
-
-              return (
-                &lt;div&gt;
-                  &lt;p&gt;You clicked {count} times&lt;/p&gt;
-                  &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
-                    Click me
-                  &lt;/button&gt;
-                &lt;/div&gt;
-              );
-            }
-
-            function SecondExample() {
-              const [count, setCount] = useState(0);
-
-              return (
-                &lt;div&gt;
-                  &lt;p&gt;You clicked {count} times&lt;/p&gt;
-                  &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
-                    Click me
-                  &lt;/button&gt;
-                &lt;/div&gt;
-              );
-            }
-          </code>
-        </pre>
-      </section>
+      
       <section>Components</section>
       <section>
         <h4>RN - Building Blocks</h4>
