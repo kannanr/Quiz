@@ -60,3 +60,6 @@ buck-out/
 --setup step - by - step.sh
 .env
 setup step - by - step.sh
+
+#Dist
+dist/

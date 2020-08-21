@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { Avatar, Text, Icon } from 'react-native-elements'
 import { QUIZAPP_API_ENDPOINT } from 'react-native-dotenv'
-import { Modalize } from 'react-native-modalize';
 import Result from '../quiz/result'
 import { Portal } from 'react-native-portalize';
 import { LineChart} from "react-native-chart-kit";
